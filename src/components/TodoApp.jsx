@@ -1,56 +1,34 @@
-import React, {Component} from 'react'
-
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import './TodoApp.css'
+import AuthenticatedRoute from './AutenticathedRoute.jsx';
+import LoginComponent from './LoginComponent.jsx';
+import LogoutComponent from './LogoutComponent.jsx';
+import WelcomeComponent from './WelcomeComponent.jsx';
+import ListTodosComponent from './ListTodosComponent.jsx';
+import HeaderComponent from './HeaderComponent.jsx';
+import FooterComponent from './FooterComponent.jsx';
+import ErrorComponent from './ErrorComponent.jsx';
 class TodoApp extends Component {
-    render(){
-        return(
+    render() {
+        return (
             <div className="TodoApp">
-                <LoginComponent/>
-            </div>
-        );
-    }
-}
-
-class LoginComponent extends Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            username: "in282minutes",
-            password: ""
-        }
-        this.handleChange = this.handleChange.bind(this)
-        //  this.handleUsernameChange = this.handleUsernameChange.bind(this)
-        //  this.handlePasswordChange = this.handlePasswordChange.bind(this)
-    }
-    handleChange(event){
-        console.log(this.state)
-        this.setState(
-            {
-                [event.target.name]:event.target.value
-            }
-        )
-    }    
-    // handleUsernameChange(event){
-    //     console.log(event.target.value)
-    //     this.setState(
-    //         {
-    //             [event.target.name]:event.target.value
-    //         }
-    //     )
-    // }
-    // handlePasswordChange(event){
-    //     console.log(event.target.value)
-    //     this.setState(
-    //         {
-    //             password:event.target.value
-    //         }
-    //     )
-    // }
-    render(){
-        return(
-            <div className="LoginComponent">
-                User Name: <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/>
-                Password: <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/>
-                <button>Login</button>
+                <Router>
+                    <HeaderComponent />
+                    <>
+                        <Switch>
+                            <Route path='/' exact component={LoginComponent} />
+                            <Route path='/login' component={LoginComponent} />
+                            <AuthenticatedRoute path='/welcome/:name' component={WelcomeComponent} />
+                            <AuthenticatedRoute path='/todos' component={ListTodosComponent} />
+                            <Route path='/logout' component={LogoutComponent} />
+                            <Route component={ErrorComponent} />
+                        </Switch>
+                    </>
+                    <FooterComponent />
+                </Router>
+                {/*<LoginComponent />
+                <WelcomeComponent />*/}
             </div>
         );
     }
